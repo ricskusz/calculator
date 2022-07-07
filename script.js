@@ -4,6 +4,10 @@ const buttons = document.querySelectorAll(".button");
 let storageOfCalculation = document.querySelector('.firstnumber');
 const clearButton = document.querySelector('.clearbutton');
 const decimalButton = document.querySelector('[data-value="."]');
+const deleteButton = document.querySelector('.backspace');
+console.log(deleteButton)
+
+// default text
 screen.textContent = "0";
 
 // handle operates
@@ -63,6 +67,7 @@ function calculate(calculationString){
 // strore and display the calculation members
 function store(screenDisplay, operator){
     let returnOutput = screenDisplay;
+
     if(operator != undefined){
 
         if(operator === "=" || operator === "Enter"){
@@ -93,6 +98,7 @@ function store(screenDisplay, operator){
 
 // handle the display content
 function handleScreen(value){
+
     if(isNaN(parseInt(value))){
         screen.textContent += value;
         screen.textContent = store(screen.textContent, value);
@@ -115,8 +121,19 @@ buttons.forEach(button => {
 
 // keysupport
 window.addEventListener('keydown', e => {
-   handleScreen(e.key);
+    const aviableKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', 'Enter'];
+    if(aviableKeys.includes(e.key)){
+        handleScreen(e.key);
+    }
+    if(e.key == "Backspace"){
+        screen.textContent = screen.textContent.replace(screen.textContent[screen.textContent.length - 1], "");
+    }
 });
+
+// remove item 
+deleteButton.addEventListener('click', () => {
+    screen.textContent = screen.textContent.replace(screen.textContent[screen.textContent.length - 1], "");
+})
 
 // delete all numbers 
 clearButton.addEventListener('click', () => {
