@@ -3,6 +3,7 @@ let screen = document.querySelector(".calculator-screen");
 const buttons = document.querySelectorAll(".button");
 let storageOfCalculation = document.querySelector('.firstnumber');
 const resultButton = document.querySelector('[data-value = "="]');
+const clearButton = document.querySelector('.clearbutton');
 
 // handle operates
 function oparate(obj){
@@ -10,19 +11,24 @@ function oparate(obj){
         case '+': return obj.num1 + obj.num2;
         case '-': return obj.num1 - obj.num2;
         case '*' : return obj.num1 * obj.num2;
-        case '/': return obj.num1 / obj.num2;
+        case '/': return parseFloat(obj.num1 / obj.num2).toFixed(2);
     }
 }
 
 // prepare then return the calculation result
 function calculate(calcultaion){
-    // 
+
     let calculationMembers = calcultaion.split(' ').filter(element => element && element != "\n");
+
+    if(calculationMembers.length != 3) console.log('gondi');
+
     let calculation = {
-        num1: parseInt(calculationMembers[0]),
+        num1: parseFloat(calculationMembers[0]),
         operator : calculationMembers[1],
-        num2: parseInt(calculationMembers[2]),
+        num2: parseFloat(calculationMembers[2]),
     }
+
+    storageOfCalculation.textContent = "";
 
     return oparate(calculation);
 }
@@ -35,8 +41,10 @@ function store(screenDisplay, operator){
     if(operator != undefined){
 
         if(operator === "="){
+
             storageOfCalculation.textContent += " " + screenDisplay.split(operator)[0];
             returnOutput = calculate(storageOfCalculation.textContent);
+
         }else{
             storageOfCalculation.textContent = screenDisplay.split(operator)[0] + " " + operator;
             returnOutput = "";
@@ -55,8 +63,18 @@ buttons.forEach(button => {
             screen.textContent += button.dataset.value;
             screen.textContent = store(screen.textContent, button.dataset.value);
         }else{
-            screen.textContent += button.dataset.value;
+            if(screen.textContent == "0"){
+                screen.textContent = button.dataset.value;
+            }else{
+                screen.textContent += button.dataset.value;
+            }
             store(screen.textContent);
         }
     })
+});
+
+
+clearButton.addEventListener('click', () => {
+    screen.textContent = "0";
+    storageOfCalculation.textContent = "";
 });
