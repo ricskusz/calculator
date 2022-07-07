@@ -121,7 +121,7 @@ buttons.forEach(button => {
 
 // keysupport
 window.addEventListener('keydown', e => {
-    const aviableKeys = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', 'Enter'];
+    const aviableKeys = ['0','1', '2', '3', '4', '5', '6', '7', '8', '9', '+', '-', '*', '/', 'Enter', '.'];
     if(aviableKeys.includes(e.key)){
         handleScreen(e.key);
     }
