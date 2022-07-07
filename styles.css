@@ -52,12 +52,24 @@ body{
 }
 
 .clearbutton{
-    background-color: orange;
+    background-color: red;
     height: 40px;
+    width: 100px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-weight: bold;
+    color: white;
+}
+
+.backspace{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    background-color: orange;
+    height: 40px;
+    width: 100px;
 }
 
 .firstnumber{
@@ -68,6 +80,14 @@ body{
     width: 30%;
     background-color: grey;
     font-size: 20px;
+}
+
+
+.action-buttons{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
 }
 
 /*calculator body*/
@@ -104,9 +124,13 @@ body{
     font-weight: bold;
 }
 
-.button:hover, .clearbutton:hover{
+.button:hover, .backspace:hover{
     background-color: red;
     color: azure;
+    cursor: pointer;
+}
+
+.clearbutton:hover{
     cursor: pointer;
 }
 
