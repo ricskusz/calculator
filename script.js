@@ -8,7 +8,7 @@ const clearButton = document.querySelector('.clearbutton');
 screen.textContent = "0";
 
 // handle operates
-function oparate(obj){
+function getResult(obj){
     switch(obj.operator){
         case '+': return obj.num1 + obj.num2;
         case '-': return obj.num1 - obj.num2;
@@ -19,51 +19,56 @@ function oparate(obj){
 
 // prepare then return the calculation result
 function calculate(calculationString){
-
-    let array = calculationString.split(' ');
-    console.log(array.length);
-
-    let calculation;
-    let returnValue;
-    // the calculation requires three members (num1, operator, num2)
-    if(array.includes('+') ||
-       array.includes('-') || 
-       array.includes('/') || 
-       array.includes('*') && array.length == 3)
-    {
-        calculation = {
-            num1: parseFloat(array[0]),
-            operator : array[1],
-            num2: parseFloat(array[2]),
-        }
     
-        storageOfCalculation.textContent = "";
-        returnValue = oparate(calculation);
-    }else{
-        returnValue = "Error";
+    let calculation;
+    let calculationArray = calculationString.split(' ');
+
+    // the calculation requires three members (num1, operator, num2) if
+    if(calculationArray.length != 3) return false;
+    // setting the operator then check it
+
+    let operator = calculationArray[1];
+
+    if(operator != "*" && operator != "/" && operator != "+" && operator != "-"){   
+        return false;
     }
-    return returnValue;
+
+    let number1 = calculationArray[0];
+    let number2 = calculationArray[2];
+
+    // last check
+    if(isNaN(number1) || isNaN(number2)){
+        return false;
+    }
+
+    calculation = {
+        num1: parseFloat(number1),
+        operator: operator,
+        num2: parseFloat(number2),
+    }
+
+    return getResult(calculation);
 }
 
 
 // strore calculation members
 function store(screenDisplay, operator){
-    let returnOutput;
-    returnOutput = screenDisplay;
+    let returnOutput = screenDisplay;
     if(operator != undefined){
 
         if(operator === "="){
 
-            storageOfCalculation.textContent += " " + screenDisplay.split(operator)[0];
-            if(calculate(storageOfCalculation.textContent) == false){
-                alert('enter an operation mark');
-                storageOfCalculation.textContent = "";
-                returnOutput = "0";
-            }else{
+            storageOfCalculation.textContent += ` ${screenDisplay.split(operator)[0]}`;
+            // calculate give us a feedback if there is no result we got a false value
+            if(calculate(storageOfCalculation.textContent)){
                 returnOutput = calculate(storageOfCalculation.textContent);
+            }else{
+                returnOutput = "0";
+                storageOfCalculation.textContent = "";
             }
+
         }else{
-            storageOfCalculation.textContent = screenDisplay.split(operator)[0] + " " + operator;
+            storageOfCalculation.textContent = `${screenDisplay.split(operator)[0]} ${operator}`;
             returnOutput = "";
         }
     }
