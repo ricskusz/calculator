@@ -5,6 +5,8 @@ let storageOfCalculation = document.querySelector('.firstnumber');
 const resultButton = document.querySelector('[data-value = "="]');
 const clearButton = document.querySelector('.clearbutton');
 
+screen.textContent = "0";
+
 // handle operates
 function oparate(obj){
     switch(obj.operator){
@@ -16,21 +18,31 @@ function oparate(obj){
 }
 
 // prepare then return the calculation result
-function calculate(calcultaion){
+function calculate(calculationString){
 
-    let calculationMembers = calcultaion.split(' ').filter(element => element && element != "\n");
+    let array = calculationString.split(' ');
+    console.log(array.length);
 
-    if(calculationMembers.length != 3) console.log('gondi');
-
-    let calculation = {
-        num1: parseFloat(calculationMembers[0]),
-        operator : calculationMembers[1],
-        num2: parseFloat(calculationMembers[2]),
+    let calculation;
+    let returnValue;
+    // the calculation requires three members (num1, operator, num2)
+    if(array.includes('+') ||
+       array.includes('-') || 
+       array.includes('/') || 
+       array.includes('*') && array.length == 3)
+    {
+        calculation = {
+            num1: parseFloat(array[0]),
+            operator : array[1],
+            num2: parseFloat(array[2]),
+        }
+    
+        storageOfCalculation.textContent = "";
+        returnValue = oparate(calculation);
+    }else{
+        returnValue = "Error";
     }
-
-    storageOfCalculation.textContent = "";
-
-    return oparate(calculation);
+    return returnValue;
 }
 
 
@@ -43,13 +55,17 @@ function store(screenDisplay, operator){
         if(operator === "="){
 
             storageOfCalculation.textContent += " " + screenDisplay.split(operator)[0];
-            returnOutput = calculate(storageOfCalculation.textContent);
-
+            if(calculate(storageOfCalculation.textContent) == false){
+                alert('enter an operation mark');
+                storageOfCalculation.textContent = "";
+                returnOutput = "0";
+            }else{
+                returnOutput = calculate(storageOfCalculation.textContent);
+            }
         }else{
             storageOfCalculation.textContent = screenDisplay.split(operator)[0] + " " + operator;
             returnOutput = "";
         }
-
     }
     return returnOutput;
 }
