@@ -5,7 +5,6 @@ let storageOfCalculation = document.querySelector('.firstnumber');
 const clearButton = document.querySelector('.clearbutton');
 const decimalButton = document.querySelector('[data-value="."]');
 const deleteButton = document.querySelector('.backspace');
-console.log(deleteButton)
 
 // default text
 screen.textContent = "0";
