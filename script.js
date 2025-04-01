@@ -96,6 +96,7 @@ function store(screenDisplay, operator){
 }
 
 // handle the display content
+//dsjfodsjfpojsdpfjsdpofjp
 function handleScreen(value){
 
     if(isNaN(parseInt(value))){
